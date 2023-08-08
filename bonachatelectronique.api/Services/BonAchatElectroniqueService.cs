@@ -43,7 +43,6 @@ namespace bonachatelectronique.api.Services
                 return false;
             }
 
-            // Update properties here
 
             await _bonAchatElectroniqueRepository.UpdateEntity(existingBonAchatElectronique);
             return true;

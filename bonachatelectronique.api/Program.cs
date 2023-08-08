@@ -21,7 +21,6 @@ builder.Services.AddSwaggerGen(c =>
         $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
 });
 
-//builder.Services.AddScoped(typeof(IRepository<IEtatBonRepo>), typeof(EtatBonRepo));
 //builder.Services.AddTransient<ILogger,Logger>();
 //builder.Services.AddLogging();
 
@@ -47,7 +46,7 @@ builder.Services.AddTransient<IBonAchatElectroniqueService, BonAchatElectronique
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -70,7 +70,6 @@ namespace bonachatelectronique.main.Controllers
                 return NotFound();
             }
 
-            // Mettre à jour les propriétés de l'EtatBon existant avec les nouvelles données.
             existingEtatBon.Libelle = etatBon.Libelle;
             existingEtatBon.Description = etatBon.Description;
             existingEtatBon.Couleur = etatBon.Couleur;
