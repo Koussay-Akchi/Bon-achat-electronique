@@ -7,12 +7,19 @@ using bonachatelectronique.Data;
 using static System.Net.Mime.MediaTypeNames;
 using bonachatelectroniqueS.Data;
 using Serilog;
+using bonachatelectronique.api.Interfaces;
+using bonachatelectronique.api.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 
 //builder.Services.AddScoped(typeof(IRepository<IEtatBonRepo>), typeof(EtatBonRepo));
 //builder.Services.AddTransient<ILogger,Logger>();
@@ -33,6 +40,10 @@ builder.Services.AddTransient<ISourceBonRepo, SourceBonRepo>();
 builder.Services.AddScoped(typeof(IRepository<BonAchatElectronique>), typeof(Repository<BonAchatElectronique>));
 builder.Services.AddTransient<IBonAchatElectroniqueRepo, BonAchatElectroniqueRepo>();
 
+builder.Services.AddTransient<IEtatBonService, EtatBonService>();
+builder.Services.AddTransient<ISourceBonService, SourceBonService>();
+builder.Services.AddTransient<ITypeBonService, TypeBonService>();
+builder.Services.AddTransient<IBonAchatElectroniqueService, BonAchatElectroniqueService>();
 
 var app = builder.Build();
 

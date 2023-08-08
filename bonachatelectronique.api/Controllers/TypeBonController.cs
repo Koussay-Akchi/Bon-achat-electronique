@@ -1,9 +1,8 @@
 ﻿using bonachatelectronique.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using bonachatelectronique.Repo;
+using bonachatelectronique.api.Interfaces;
 
 namespace bonachatelectronique.main.Controllers
 {
@@ -11,70 +10,81 @@ namespace bonachatelectronique.main.Controllers
     [Route("api/[controller]")]
     public class TypeBonController : ControllerBase
     {
-        private readonly bonachatelectronique.Repo.ITypeBonRepo _TypeBonRepo;
+        private readonly ITypeBonService _TypeBonService;
 
-        public TypeBonController(ITypeBonRepo TypeBonRepo)
+        public TypeBonController(ITypeBonService TypeBonService)
         {
-            _TypeBonRepo = TypeBonRepo;
+            _TypeBonService = TypeBonService;
         }
 
+
+        /// <summary>
+        /// Récupère une liste de tout les Types des bons.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeBon>>> GetAllTypeBon()
         {
-
-            var TypeBonList = await _TypeBonRepo.GetAllTypeBonAsync();
+            var TypeBonList = await _TypeBonService.GetAllTypeBonAsync();
             return Ok(TypeBonList);
         }
 
-        [HttpGet("{code}")]
-        public async Task<ActionResult<TypeBon>> GetTypeBonById(int code)
+        /// <summary>
+        /// Récupère un Type par son Code.
+        /// </summary>
+        [HttpGet("{Code}")]
+        public async Task<ActionResult<TypeBon>> GetTypeBonById(int Code)
         {
-            var TypeBon = await _TypeBonRepo.GetTypeBonByIdAsync(code);
+            var TypeBon = await _TypeBonService.GetTypeBonByIdAsync(Code);
             if (TypeBon == null)
             {
                 return NotFound();
             }
             return Ok(TypeBon);
         }
-
+        /// <summary>
+        /// Ajoute un nouvelle Type.
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<TypeBon>> AddTypeBon(TypeBon TypeBon)
         {
-            await _TypeBonRepo.AddTypeBonAsync(TypeBon);
-            return CreatedAtAction(nameof(GetTypeBonById), new { code = TypeBon.Code }, TypeBon);
+            await _TypeBonService.AddTypeBonAsync(TypeBon);
+            return CreatedAtAction(nameof(GetTypeBonById), new { Code = TypeBon.Code }, TypeBon);
         }
-
-        [HttpDelete("{code}")]
-        public async Task<ActionResult> DeleteTypeBon(int code)
+        /// <summary>
+        /// Supprime un Type par son Code.
+        /// </summary>
+        [HttpDelete("{Code}")]
+        public async Task<ActionResult> DeleteTypeBon(int Code)
         {
-            var existingTypeBon = await _TypeBonRepo.GetTypeBonByIdAsync(code);
+            var existingTypeBon = await _TypeBonService.GetTypeBonByIdAsync(Code);
             if (existingTypeBon == null)
             {
                 return NotFound();
             }
 
-            await _TypeBonRepo.DeleteTypeBonAsync(code);
+            await _TypeBonService.DeleteTypeBonAsync(Code);
             return NoContent();
         }
-
-        [HttpPut("{code}")]
-        public async Task<ActionResult> UpdateTypeBon(int code, TypeBon TypeBon)
+        /// <summary>
+        /// Met à jour un Type.
+        /// </summary>
+        [HttpPut("{Code}")]
+        public async Task<ActionResult> UpdateTypeBon(int Code, TypeBon TypeBon)
         {
-            if (code != TypeBon.Code)
+            if (Code != TypeBon.Code)
             {
                 return BadRequest();
             }
 
-            var existingTypeBon = await _TypeBonRepo.GetTypeBonByIdAsync(code);
+            var existingTypeBon = await _TypeBonService.GetTypeBonByIdAsync(Code);
             if (existingTypeBon == null)
             {
                 return NotFound();
             }
 
             existingTypeBon.Libelle = TypeBon.Libelle;
-            
-            
-            await _TypeBonRepo.UpdateTypeBonAsync(existingTypeBon);
+
+            await _TypeBonService.UpdateTypeBonAsync(Code, existingTypeBon);
             return NoContent();
         }
     }
