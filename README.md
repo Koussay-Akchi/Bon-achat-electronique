@@ -2,6 +2,8 @@
 ## Ce project (7.0) genere an API en utilisant Entity framework. pour des requetes SQL directes, c'est dans le premier projet (NET core 3.1) 👉 https://github.com/Koussay-Akchi/bonachat-3.1
 <br>
 
+# [Journal de stage](https://github.com/Koussay-Akchi/Bon-achat-electronique/blob/master/journal.md)
+
 ***English*** : This project contains the code and resources I used during my internship to learn ASP.NET Core. The project focuses on an MVC pattern that utilizes Entity Framework with a PostgreSQL database. It is divided into 2 projects: one project is dedicated solely to data, and another project is an API with dependency injection. The API includes GET, PUT, DELETE, and POST functions.
 <br>
 
